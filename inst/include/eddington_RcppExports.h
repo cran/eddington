@@ -24,11 +24,11 @@ namespace eddington {
         }
     }
 
-    inline int E_num(NumericVector& rides) {
+    inline int E_num(const Rcpp::IntegerVector& rides) {
         typedef SEXP(*Ptr_E_num)(SEXP);
         static Ptr_E_num p_E_num = NULL;
         if (p_E_num == NULL) {
-            validateSignature("int(*E_num)(NumericVector&)");
+            validateSignature("int(*E_num)(const Rcpp::IntegerVector&)");
             p_E_num = (Ptr_E_num)R_GetCCallable("eddington", "_eddington_E_num");
         }
         RObject rcpp_result_gen;
@@ -45,11 +45,11 @@ namespace eddington {
         return Rcpp::as<int >(rcpp_result_gen);
     }
 
-    inline IntegerVector E_cum(NumericVector& rides) {
+    inline Rcpp::IntegerVector E_cum(const Rcpp::IntegerVector& rides) {
         typedef SEXP(*Ptr_E_cum)(SEXP);
         static Ptr_E_cum p_E_cum = NULL;
         if (p_E_cum == NULL) {
-            validateSignature("IntegerVector(*E_cum)(NumericVector&)");
+            validateSignature("Rcpp::IntegerVector(*E_cum)(const Rcpp::IntegerVector&)");
             p_E_cum = (Ptr_E_cum)R_GetCCallable("eddington", "_eddington_E_cum");
         }
         RObject rcpp_result_gen;
@@ -63,14 +63,14 @@ namespace eddington {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<IntegerVector >(rcpp_result_gen);
+        return Rcpp::as<Rcpp::IntegerVector >(rcpp_result_gen);
     }
 
-    inline List E_next(NumericVector& rides) {
+    inline Rcpp::List E_next(const Rcpp::IntegerVector& rides) {
         typedef SEXP(*Ptr_E_next)(SEXP);
         static Ptr_E_next p_E_next = NULL;
         if (p_E_next == NULL) {
-            validateSignature("List(*E_next)(NumericVector&)");
+            validateSignature("Rcpp::List(*E_next)(const Rcpp::IntegerVector&)");
             p_E_next = (Ptr_E_next)R_GetCCallable("eddington", "_eddington_E_next");
         }
         RObject rcpp_result_gen;
@@ -84,7 +84,7 @@ namespace eddington {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
+        return Rcpp::as<Rcpp::List >(rcpp_result_gen);
     }
 
 }

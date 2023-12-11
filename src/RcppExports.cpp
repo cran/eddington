@@ -8,12 +8,17 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // E_num
-int E_num(NumericVector& rides);
+int E_num(const Rcpp::IntegerVector& rides);
 static SEXP _eddington_E_num_try(SEXP ridesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< NumericVector& >::type rides(ridesSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type rides(ridesSEXP);
     rcpp_result_gen = Rcpp::wrap(E_num(rides));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
@@ -37,17 +42,17 @@ RcppExport SEXP _eddington_E_num(SEXP ridesSEXP) {
     if (rcpp_isError_gen) {
         SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
         UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
+        Rf_error("%s", CHAR(rcpp_msgSEXP_gen));
     }
     UNPROTECT(1);
     return rcpp_result_gen;
 }
 // E_cum
-IntegerVector E_cum(NumericVector& rides);
+Rcpp::IntegerVector E_cum(const Rcpp::IntegerVector& rides);
 static SEXP _eddington_E_cum_try(SEXP ridesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< NumericVector& >::type rides(ridesSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type rides(ridesSEXP);
     rcpp_result_gen = Rcpp::wrap(E_cum(rides));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
@@ -71,17 +76,17 @@ RcppExport SEXP _eddington_E_cum(SEXP ridesSEXP) {
     if (rcpp_isError_gen) {
         SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
         UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
+        Rf_error("%s", CHAR(rcpp_msgSEXP_gen));
     }
     UNPROTECT(1);
     return rcpp_result_gen;
 }
 // E_next
-List E_next(NumericVector& rides);
+Rcpp::List E_next(const Rcpp::IntegerVector& rides);
 static SEXP _eddington_E_next_try(SEXP ridesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< NumericVector& >::type rides(ridesSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type rides(ridesSEXP);
     rcpp_result_gen = Rcpp::wrap(E_next(rides));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
@@ -105,19 +110,34 @@ RcppExport SEXP _eddington_E_next(SEXP ridesSEXP) {
     if (rcpp_isError_gen) {
         SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
         UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
+        Rf_error("%s", CHAR(rcpp_msgSEXP_gen));
     }
     UNPROTECT(1);
     return rcpp_result_gen;
+}
+// get_haversine_distance_
+double get_haversine_distance_(double lat_1, double long_1, double lat_2, double long_2, double r);
+RcppExport SEXP _eddington_get_haversine_distance_(SEXP lat_1SEXP, SEXP long_1SEXP, SEXP lat_2SEXP, SEXP long_2SEXP, SEXP rSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type lat_1(lat_1SEXP);
+    Rcpp::traits::input_parameter< double >::type long_1(long_1SEXP);
+    Rcpp::traits::input_parameter< double >::type lat_2(lat_2SEXP);
+    Rcpp::traits::input_parameter< double >::type long_2(long_2SEXP);
+    Rcpp::traits::input_parameter< double >::type r(rSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_haversine_distance_(lat_1, long_1, lat_2, long_2, r));
+    return rcpp_result_gen;
+END_RCPP
 }
 
 // validate (ensure exported C++ functions exist before calling them)
 static int _eddington_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("int(*E_num)(NumericVector&)");
-        signatures.insert("IntegerVector(*E_cum)(NumericVector&)");
-        signatures.insert("List(*E_next)(NumericVector&)");
+        signatures.insert("int(*E_num)(const Rcpp::IntegerVector&)");
+        signatures.insert("Rcpp::IntegerVector(*E_cum)(const Rcpp::IntegerVector&)");
+        signatures.insert("Rcpp::List(*E_next)(const Rcpp::IntegerVector&)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -131,10 +151,14 @@ RcppExport SEXP _eddington_RcppExport_registerCCallable() {
     return R_NilValue;
 }
 
+RcppExport SEXP _rcpp_module_boot_eddington_mod();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_eddington_E_num", (DL_FUNC) &_eddington_E_num, 1},
     {"_eddington_E_cum", (DL_FUNC) &_eddington_E_cum, 1},
     {"_eddington_E_next", (DL_FUNC) &_eddington_E_next, 1},
+    {"_eddington_get_haversine_distance_", (DL_FUNC) &_eddington_get_haversine_distance_, 5},
+    {"_rcpp_module_boot_eddington_mod", (DL_FUNC) &_rcpp_module_boot_eddington_mod, 0},
     {"_eddington_RcppExport_registerCCallable", (DL_FUNC) &_eddington_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
 };

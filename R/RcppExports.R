@@ -4,15 +4,14 @@
 #' Get the Eddington number for cycling
 #'
 #' Gets the \href{https://en.wikipedia.org/wiki/Arthur_Eddington#Eddington_number_for_cycling}{Eddington number for cycling}.
-#' The Eddington Number for cycling, \emph{E}, is the
-#' maximum number where a cyclist has ridden \emph{E} miles in \emph{E} days.
+#' The Eddington Number for cycling, \emph{E}, is the maximum number where a
+#' cyclist has ridden \emph{E} miles on \emph{E} distinct days.
 #'
 #' The Eddington Number for cycling is related to computing the rank of an
 #' integer partition, which is the same as computing the side length of its
 #' \href{https://en.wikipedia.org/wiki/Durfee_square}{Durfee square}. Another
-#' relevant application of this metric is computing the
-#' \href{https://doi.org/10.1073/pnas.0507655102}{Hirsch index} for
-#' publications.
+#' relevant application of this metric is computing the Hirsch index
+#' (\doi{10.1073/pnas.0507655102}) for publications.
 #'
 #' This is not to be confused with the
 #' \href{https://en.wikipedia.org/wiki/Eddington_number}{Eddington Number in
@@ -39,7 +38,7 @@
 #' E_num(rides)
 #' @export
 E_num <- function(rides) {
-    .Call('_eddington_E_num', PACKAGE = 'eddington', rides)
+    .Call(`_eddington_E_num`, rides)
 }
 
 #' Calculate the cumulative Eddington number
@@ -54,7 +53,7 @@ E_num <- function(rides) {
 #' @return An integer vector the same length as \code{rides}.
 #' @export
 E_cum <- function(rides) {
-    .Call('_eddington_E_cum', PACKAGE = 'eddington', rides)
+    .Call(`_eddington_E_cum`, rides)
 }
 
 #' Get the number of rides required to increment to the next Eddington number
@@ -68,10 +67,14 @@ E_cum <- function(rides) {
 #'   number of rides required to increment by one (\code{req}).
 #' @export
 E_next <- function(rides) {
-    .Call('_eddington_E_next', PACKAGE = 'eddington', rides)
+    .Call(`_eddington_E_next`, rides)
+}
+
+get_haversine_distance_ <- function(lat_1, long_1, lat_2, long_2, r) {
+    .Call(`_eddington_get_haversine_distance_`, lat_1, long_1, lat_2, long_2, r)
 }
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call('_eddington_RcppExport_registerCCallable', PACKAGE = 'eddington')
+    .Call(`_eddington_RcppExport_registerCCallable`)
 })

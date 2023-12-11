@@ -1,20 +1,18 @@
-// [[Rcpp::interfaces(r, cpp)]]
+#include "EddingtonClass.h"
 #include <Rcpp.h>
-
-using namespace Rcpp;
+// [[Rcpp::interfaces(r, cpp)]]
 
 //' Get the Eddington number for cycling
 //'
 //' Gets the \href{https://en.wikipedia.org/wiki/Arthur_Eddington#Eddington_number_for_cycling}{Eddington number for cycling}.
-//' The Eddington Number for cycling, \emph{E}, is the
-//' maximum number where a cyclist has ridden \emph{E} miles in \emph{E} days.
+//' The Eddington Number for cycling, \emph{E}, is the maximum number where a
+//' cyclist has ridden \emph{E} miles on \emph{E} distinct days.
 //'
 //' The Eddington Number for cycling is related to computing the rank of an
 //' integer partition, which is the same as computing the side length of its
 //' \href{https://en.wikipedia.org/wiki/Durfee_square}{Durfee square}. Another
-//' relevant application of this metric is computing the
-//' \href{https://doi.org/10.1073/pnas.0507655102}{Hirsch index} for
-//' publications.
+//' relevant application of this metric is computing the Hirsch index
+//' (\doi{10.1073/pnas.0507655102}) for publications.
 //'
 //' This is not to be confused with the
 //' \href{https://en.wikipedia.org/wiki/Eddington_number}{Eddington Number in
@@ -41,24 +39,8 @@ using namespace Rcpp;
 //' E_num(rides)
 //' @export
 // [[Rcpp::export]]
-int E_num(NumericVector &rides) {
-  int n = rides.size(), E = 0, ride = 0, above = 0;
-  IntegerVector H(n);
-
-  for (int i = 0; i < n; i++) {
-    ride = (int) rides[i];
-    if (ride > E) {
-      above++;
-      if (ride < n) H[ride]++;
-
-      if (above > E) {
-        E++;
-        above -= H[E];
-      }
-    }
-  }
-
-  return E;
+int E_num(const Rcpp::IntegerVector &rides) {
+  return Eddington(rides, false).getEddingtonNumber();
 }
 
 //' Calculate the cumulative Eddington number
@@ -73,27 +55,8 @@ int E_num(NumericVector &rides) {
 //' @return An integer vector the same length as \code{rides}.
 //' @export
 // [[Rcpp::export]]
-IntegerVector E_cum(NumericVector &rides) {
-  int n = rides.size(), running = 0, ride = 0, above = 0;
-  IntegerVector E(n), H(n);
-
-  for (int i = 0; i < n; i++) {
-    ride = (int) rides[i];
-    if (ride > running) {
-      above++;
-      if (ride < n) H[ride]++;
-
-      if (above > running) {
-        running++;
-        above -= H[running];
-      }
-    }
-
-    E[i] = running;
-
-  }
-
-  return E;
+Rcpp::IntegerVector E_cum(const Rcpp::IntegerVector &rides) {
+  return Eddington(rides, true).getCumulativeEddingtonNumber().get();
 }
 
 //' Get the number of rides required to increment to the next Eddington number
@@ -107,29 +70,17 @@ IntegerVector E_cum(NumericVector &rides) {
 //'   number of rides required to increment by one (\code{req}).
 //' @export
 // [[Rcpp::export]]
-List E_next(NumericVector &rides) {
-  int n = rides.size(), E = 0, ride = 0, above = 0;
-  IntegerVector H(n + 2);
-
-  for (int i = 0; i < n; i++) {
-    ride = (int) rides[i];
-    if (ride > E) {
-      above++;
-      H[std::min(ride, n + 1)]++;
-
-      if (above > E) {
-        E++;
-        above -= H[E];
-      }
-    }
-  }
-
-  List out = List::create(
-    _["E"] = E,
-    _["req"] = E + 1 - above
-  );
+Rcpp::List E_next(const Rcpp::IntegerVector &rides) {
+  auto e = Eddington(rides, false);
+  Rcpp::List out = Rcpp::List::create(Rcpp::Named("E") = e.getEddingtonNumber(),
+                                      Rcpp::Named("req") = e.getNumberToNext());
 
   out.attr("class") = "E_next";
-
   return out;
 }
+
+/*** R
+E_num(c(2.2, 1.1, 3.3))
+E_cum(c(2.2, 1.1, 3.3))
+E_next(c(2.2, 1.1, 3.3))
+*/

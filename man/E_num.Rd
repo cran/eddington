@@ -12,20 +12,19 @@ day.}
 }
 \value{
 An integer which is the Eddington cycling number for the
-  data provided.
+data provided.
 }
 \description{
 Gets the \href{https://en.wikipedia.org/wiki/Arthur_Eddington#Eddington_number_for_cycling}{Eddington number for cycling}.
-The Eddington Number for cycling, \emph{E}, is the
-maximum number where a cyclist has ridden \emph{E} miles in \emph{E} days.
+The Eddington Number for cycling, \emph{E}, is the maximum number where a
+cyclist has ridden \emph{E} miles on \emph{E} distinct days.
 }
 \details{
 The Eddington Number for cycling is related to computing the rank of an
 integer partition, which is the same as computing the side length of its
 \href{https://en.wikipedia.org/wiki/Durfee_square}{Durfee square}. Another
-relevant application of this metric is computing the
-\href{https://doi.org/10.1073/pnas.0507655102}{Hirsch index} for
-publications.
+relevant application of this metric is computing the Hirsch index
+(\doi{10.1073/pnas.0507655102}) for publications.
 
 This is not to be confused with the
 \href{https://en.wikipedia.org/wiki/Eddington_number}{Eddington Number in
@@ -44,5 +43,5 @@ E_num(rides)
 }
 \seealso{
 \code{\link{E_cum}}, \code{\link{E_next}}, \code{\link{E_req}},
-  \code{\link{E_sat}}
+\code{\link{E_sat}}
 }
