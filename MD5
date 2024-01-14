@@ -1,4 +1,4 @@
-4c4eea7b119ba4664dfab33e278c7892 *DESCRIPTION
+a4c67a46199ed0c53fc0d008664ec521 *DESCRIPTION
 5263afab633bc4f54570a73a552f186a *NAMESPACE
 1266c887d1ee2797199c65216fe92faf *NEWS.md
 21f5b0b0c98febb4b17bafaa8661a50c *R/RcppExports.R
@@ -14,7 +14,7 @@ f781d28d10755e9157e747399b39be74 *README.md
 9b50ef2f45116288bfe9e5b18268d2d9 *data/rides.rda
 437a5054ae6edca874b590670d4d0519 *inst/doc/eddington.R
 d1e3ee275832b5dad81feda6f4656928 *inst/doc/eddington.Rmd
-65313deb04de7613955b54702a9f40c0 *inst/doc/eddington.html
+5fc59469bef6e50ad5b9e5362623a0a5 *inst/doc/eddington.html
 5e9820192d43e917ca8f59f631bbcf1b *inst/include/eddington.h
 18d591be51241c32dcb6c79df3dad0e8 *inst/include/eddington_RcppExports.h
 cffc912c236d6ba7c75a1795b9c75d37 *man/E_cum.Rd
