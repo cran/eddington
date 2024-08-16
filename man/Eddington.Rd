@@ -4,11 +4,6 @@
 \alias{Eddington}
 \title{An R6 Class for Tracking Eddington Numbers for Cycling}
 \description{
-An R6 Class for Tracking Eddington Numbers for Cycling
-
-An R6 Class for Tracking Eddington Numbers for Cycling
-}
-\details{
 The class will maintain the state of the algorithm, allowing for efficient
 updates as new rides come in.
 }
@@ -28,7 +23,7 @@ or \link[base:load]{base::load}.
 rides <- rgamma(15, shape = 2, scale = 10)
 
 # View the rides sorted in decreasing order
-setNames(sort(rides, decreasing = TRUE), seq_along(rides))
+stats::setNames(sort(rides, decreasing = TRUE), seq_along(rides))
 
 # Create the Eddington object
 e <- Eddington$new(rides, store.cumulative = TRUE)
